@@ -2,6 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: myapp
+  namespace: argocd
 spec:
   project: default
   source:
@@ -13,8 +14,13 @@ spec:
     namespace: default
   syncPolicy:
     automated:
-      prune: true          # optional: cleans up deleted resources
-      selfHeal: true       # optional: auto-corrects drift
+      prune: true          # cleans up deleted resources
+      selfHeal: true       # auto-corrects drift
     syncOptions:
       - CreateNamespace=true
-      - FailFast=true       # ✅ stops sync immediately if any resource fails
+      - FailFast=true      # stops sync immediately if any resource fails
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      jsonPointers:
+        - /spec/replicas   # ✅ Ignores replica changes (you can scale manually without showing OutOfSync)
