@@ -2,7 +2,6 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: myapp
-  #namespace: ar
 spec:
   project: default
   source:
@@ -13,9 +12,9 @@ spec:
     server: https://kubernetes.default.svc
     namespace: default
   syncPolicy:
-    automated: {}
-      #prune: true
-      #selfHeal: true
-      #allowEmpty: false
+    automated:
+      prune: true          # optional: cleans up deleted resources
+      selfHeal: true       # optional: auto-corrects drift
     syncOptions:
-    - CreateNamespace=true
+      - CreateNamespace=true
+      - FailFast=true       # ✅ stops sync immediately if any resource fails
