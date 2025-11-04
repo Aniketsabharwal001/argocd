@@ -33,4 +33,4 @@ spec:
     - port: 80
       targetPort: 80
       protocol: TCP
-      nodePort: 30009   # ✅ Different from nginx (30008)
+      nodePort: 30010   # ✅ Different from nginx (30008)
